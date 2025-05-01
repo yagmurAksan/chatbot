@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classification Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        .conversation {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .buttons {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .question {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .answer {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button onclick="location.href='{% url 'simulate' %}'">Simulate Again</button>
+        <button onclick="location.href='{% url 'show_conversations' %}'">Show Conversations</button>
+        <button onclick="location.href='/'">Home</button>
+    </div>
+    <h1>Classification Results</h1>
+
+    {% if conversations %}
+        {% for conversation in conversations %}
+            <div class="conversation">
+                <div class="question">Q: {{ conversation.question }}</div>
+                <div class="answer">A: {{ conversation.answer }}</div>
+                <div class="answer">Prediction: {{ conversation.classification_result }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center; color: #666;">No vegan/vegetarian conversations classified yet.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulated Conversations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        .conversation {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .answer {
+            color: #555;
+        }
+        /* Yeni buton stilleri */
+        .buttons {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+    <div class="buttons">
+        <button id="classify-button">Classify Results</button>
+        <button onclick="location.href='/classify'">Classify Results By HuggingFace</button>
+        <button onclick="location.href='/'">Home</button>
+    </div>
+
+    <h1>Simulated Conversations</h1>
+    {% for conversation in conversations %}
+        <div class="conversation">
+            <div class="question">Q: {{ conversation.question }}</div>
+            <div class="answer">A: {{ conversation.answer }}</div>
+        </div>
+    {% endfor %}
+</body>
+<script>
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    document.getElementById('classify-button').addEventListener('click', function () {
+        fetch("{% url 'classify_api' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'include'
+        })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    window.location.href = `/accounts/login/?next=/conversations`;
+                }
+                throw new Error('Authentication or CSRF failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Classification done:', data);
+            window.location.href = '{% url "classification_results" %}';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Login required or CSRF validation failed.');
+        });
+    });
+</script>
+</html>
