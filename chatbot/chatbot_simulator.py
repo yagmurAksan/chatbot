@@ -31,7 +31,7 @@ def simulate_conversations():
         except Exception as e:
             print(f"Error simulating conversation: {e}")
 
-    with ThreadPoolExecutor(max_workers=50) as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(simulate_conversation) for _ in range(100)]
         for future in as_completed(futures):
             future.result()
