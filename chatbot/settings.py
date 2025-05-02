@@ -30,10 +30,13 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SECRET_KEY = 'django-insecure-koo#t6$h)qhq@zvqxmd*#$^&8ouc*3s1!)qg_8)qks@^0nu178'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'chatbot-eir-app-anckdec7a0hec7fe.westeurope-01.azurewebsites.net']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://chatbot-eir-app-anckdec7a0hec7fe.westeurope-01.azurewebsites.net'
+]
 
 # Application definition
 
