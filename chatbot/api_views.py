@@ -1,12 +1,12 @@
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Conversation
 from .chatbot_classifier import classify_food
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication])
+@authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def classify_api(request):
     conversations = Conversation.objects.all().order_by('-created_at')[:100]
