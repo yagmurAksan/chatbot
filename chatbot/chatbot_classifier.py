@@ -1,11 +1,4 @@
-from transformers import pipeline
 import re
-
-classifier = pipeline(
-    "zero-shot-classification",
-    model="facebook/bart-large-mnli",
-    device=-1
-)
 
 MEATY_KEYWORDS = [
     "fish", "tuna", "salmon", "shrimp", "chicken", "beef",
@@ -43,10 +36,3 @@ def classify_food(text):
         return "vegan", results
     else:
         return "vegetarian", results
-
-def classify_hugging_face(text):
-    candidate_labels = ["vegan", "vegetarian", "non-vegetarian"]
-
-    result = classifier(text, candidate_labels)
-
-    return result['labels'][0], dict(zip(result['labels'], result['scores']))

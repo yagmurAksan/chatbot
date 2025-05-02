@@ -10,7 +10,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('simulate/', views.simulate, name='simulate'),
     path('conversations/', views.show_conversations, name='show_conversations'),
-    path('classify/', views.classify, name='classify_hugging_face'),
     path('api/classify/', classify_api, name='classify_api'),
     path('classification-results/', views.classification_results, name='classification_results'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
